@@ -8,7 +8,8 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-
+variables:
+  AZP_AGENT_CLEANUP_PSMODULES_IN_POWERSHELL: "true"
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
