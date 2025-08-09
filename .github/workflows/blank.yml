@@ -16,21 +16,20 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Databricks CLI
-        run: |
-          pip3 install databricks-cli
+        run: pip3 install databricks-cli
 
       - name: Debug Databricks Secrets (Partial Echo)
         env:
-          DATABRICKS_HOST: ${{ databricks.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ databricks.DATABRICKS_TOKEN }}
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
           echo "Databricks Host: ${DATABRICKS_HOST}"
           echo "Databricks Token (first 5 chars): ${DATABRICKS_TOKEN:0:5}*****"
 
       - name: Configure Databricks CLI
         env:
-          DATABRICKS_HOST: ${{ databricks.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ databricks.DATABRICKS_TOKEN }}
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
           mkdir -p ~/.databricks
           cat <<EOF > ~/.databricks/config
