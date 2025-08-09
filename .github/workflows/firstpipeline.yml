@@ -15,7 +15,8 @@ jobs:
 
     - name: Install Python & pip (if not pre-installed)
       run: |
-        choco install python3 -y
+            winget install Databricks.DatabricksCLI
+            #choco install python3 -y
       shell: powershell
 
     - name: Install Databricks CLI
