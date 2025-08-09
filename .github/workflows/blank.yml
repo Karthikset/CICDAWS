@@ -23,21 +23,24 @@ jobs:
           mkdir -p ~/.databricks
           cat <<EOF > ~/.databricks/config
           [DEFAULT]
-          host = ${{ secrets.DATABRICKS_HOST }}
-          token = ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_HOST = ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN = ${{ secrets.DATABRICKS_TOKEN }}
           EOF
-      - name: Echo Databricks Host URL
-        run: echo "Databricks Host: ${{ secrets.DATABRICKS_HOST }}"
 
-      #- name: Verify Databricks CLI login
-        run: databricks workspace list /Users/kennnethcarlson@gmail.com
+      # ⚠️ Optional: Echoing secrets can expose sensitive info. Use only for debugging.
+      - name: Echo Databricks Host URL (Debug Only)
+        run: echo "Databricks Host is set"
+
+      # ✅ Uncomment this step if you want to verify CLI login
+      # - name: Verify Databricks CLI login
+      #   run: databricks workspace list /Users/kennnethcarlson@gmail.com
 
       - name: Run Databricks Notebook
         uses: databricks/run-notebook@v0.0.3
         with:
           workspace-notebook-path: "/Workspace/Users/kennnethcarlson@gmail.com/sample"
-          databricks-host: ${{ secrets.DATABRICKS_HOST }}
-          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           new-cluster-json: '{
             "num_workers": 1,
             "spark_version": "10.4.x-scala2.12",
