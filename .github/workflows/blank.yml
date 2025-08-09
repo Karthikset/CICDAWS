@@ -36,9 +36,3 @@ jobs:
           workspace-notebook-path: "/Workspace/Users/kennnethcarlson@gmail.com/sample"
           databricks-host: "https://dbc-3d485d2b-385d.cloud.databricks.com"
           databricks-token: "${{ secrets.DATABRICKS_TOKEN }}"
-          new-cluster-json: '{
-            "num_workers": 1,
-            "spark_version": "10.4.x-scala2.12",
-            "node_type_id": "Standard_D3_v2"
-          }'
-          run-name: "CI Notebook Run"
