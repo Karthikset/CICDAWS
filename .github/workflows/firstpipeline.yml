@@ -1,5 +1,4 @@
 name: Setup Databricks CLI
-
 on:
   workflow_dispatch:  # Allows manual trigger
   push:
