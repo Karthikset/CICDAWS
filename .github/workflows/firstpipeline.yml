@@ -1,38 +1,43 @@
 name: Setup Databricks CLI
+
 on:
-  workflow_dispatch:  # Allows manual trigger
+  workflow_dispatch:
   push:
     branches: [ main ]
 
 jobs:
   setup-databricks:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, windows]  # Target Windows self-hosted runner
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install Python & pip
+    - name: Install Python & pip (if not pre-installed)
       run: |
-        sudo apt update
-        sudo apt install -y python3 python3-pip
+        choco install python3 -y
+      shell: powershell
 
     - name: Install Databricks CLI
       run: |
-        pip3 install databricks-cli
+        pip install databricks-cli
+      shell: powershell
 
     - name: Configure Databricks CLI
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       run: |
-        mkdir -p ~/.databricks
-        cat <<EOF > ~/.databricks/config
+        $configPath = "$env:USERPROFILE\.databricks\config"
+        New-Item -ItemType Directory -Force -Path (Split-Path $configPath)
+        @"
         [DEFAULT]
-        host = $DATABRICKS_HOST
-        token = $DATABRICKS_TOKEN
-        EOF
+        host = $env:DATABRICKS_HOST
+        token = $env:DATABRICKS_TOKEN
+        "@ | Out-File -FilePath $configPath -Encoding utf8
+      shell: powershell
 
     - name: Test Databricks CLI login
       run: |
         databricks workspace list
+      shell: powershell
