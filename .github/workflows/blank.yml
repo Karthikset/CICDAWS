@@ -23,6 +23,14 @@ jobs:
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      - name: Debug Databricks Secrets (Partial Echo)
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          echo "Databricks Host: ${DATABRICKS_HOST}"
+          echo "Databricks Token (first 5 chars): ${DATABRICKS_TOKEN:0:5}*****"
+          
         run: |
           mkdir -p ~/.databricks
           cat <<EOF > ~/.databricks/config
