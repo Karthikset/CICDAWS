@@ -30,7 +30,7 @@ jobs:
         run: echo "Databricks Host: ${{ secrets.DATABRICKS_HOST }}"
 
       #- name: Verify Databricks CLI login
-       # run: databricks workspace list /Users/kennnethcarlson@gmail.com
+        run: databricks workspace list /Users/kennnethcarlson@gmail.com
 
       - name: Run Databricks Notebook
         uses: databricks/run-notebook@v0.0.3
