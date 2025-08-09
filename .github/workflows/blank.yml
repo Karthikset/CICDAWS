@@ -28,4 +28,4 @@ jobs:
           EOF
 
       - name: Verify Databricks CLI login
-        run: databricks workspace list
+        run: databricks workspace list /
