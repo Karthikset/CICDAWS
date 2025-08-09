@@ -18,24 +18,13 @@ jobs:
       - name: Install Databricks CLI
         run: pip3 install databricks-cli
 
-      - name: Debug Databricks Secrets (Partial Echo)
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: |
-          echo "Databricks Host: ${DATABRICKS_HOST}"
-          echo "Databricks Token (first 5 chars): ${DATABRICKS_TOKEN:0:5}*****"
-
       - name: Configure Databricks CLI
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
           mkdir -p ~/.databricks
           cat <<EOF > ~/.databricks/config
           [DEFAULT]
-          host = $DATABRICKS_HOST
-          token = $DATABRICKS_TOKEN
+          host = https://dbc-3d485d2b-385d.cloud.databricks.com
+          token = ${{ secrets.DATABRICKS_TOKEN }}
           EOF
 
       - name: Verify Databricks CLI login
