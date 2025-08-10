@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Correct runner
+    runs-on: ubuntu-latest
 
     env:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
@@ -38,6 +38,9 @@ jobs:
         with:
           databricks-host: ${{ secrets.DATABRICKS_HOST }}
           databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
-          # Add notebook path and parameters if needed
-          notebook-path: https://dbc-3d485d2b-385d.cloud.databricks.com/editor/notebooks/1236242030962204?o=1299670065630970
-/Workspace/Users/kennnethcarlson@gmail.com/sample
+          workspace-notebook-path: /Workspace/Users/kennnethcarlson@gmail.com/sample
+          run-name: CI Notebook Run
+          workspace-temp-dir: /tmp/databricks-github-actions
+          git-provider: gitHub
+          # Uncomment and customize if you want to pass parameters to the notebook
+          # notebook-params-json: '{ "param1": "value1", "param2": "value2" }'
