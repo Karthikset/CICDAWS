@@ -1,20 +1,39 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+name: azure-pipekines
 
-trigger:
-- demo
+on:
+  push:
+    branches:
+      - main
 
-pool:
-  vmImage: ubuntu-latest
-variables:
-  AZP_AGENT_CLEANUP_PSMODULES_IN_POWERSHELL: "true"
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev_databricks  # Define deployment environment
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Databricks CLI
+      run: |
+        pip install databricks-cli
+
+    - name: Configure Databricks CLI
+      run: |
+        mkdir -p ~/.databricks
+        echo "[DEFAULT]" > ~/.databricks/config
+        echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
+        echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
+
+    - name: Upload notebook to workspace
+      run: |
+        databricks workspace import_dir notebooks /Workspace/Users/kennnethcarlson@gmail.com --overwrite
