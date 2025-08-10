@@ -1,0 +1,28 @@
+# .github/workflows/deploy.yml
+
+name: Deploy to Databricks
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Databricks CLI command
+        run: |
+          echo "Connecting to Databricks..."
+          databricks configure --token <<EOF
+          $DATABRICKS_HOST
+          $DATABRICKS_TOKEN
+          echo "${{ secrets.DATABRICKS_HOST }}"
+          EOF
