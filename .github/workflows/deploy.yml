@@ -39,5 +39,5 @@ jobs:
 
     - name: Upload notebook to workspace
       run: |
-        databricks workspace import_dir notebooks /Workspace/CI_Notebooks --overwrite
+        #databricks workspace import_dir notebooks /Workspace/CI_Notebooks --overwrite
 
