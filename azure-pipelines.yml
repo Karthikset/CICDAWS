@@ -1,4 +1,4 @@
-name: azure-pipekines
+name: azure-pipelines
 
 on:
   push:
