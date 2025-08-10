@@ -9,11 +9,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: DEV_DATABRICKS  # Define deployment environment
-
     env:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-
+      REPO_PATH : /Workspace/Users/kennnethcarlson@gmail.com
+      
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
