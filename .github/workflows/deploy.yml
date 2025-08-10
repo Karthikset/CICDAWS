@@ -36,6 +36,3 @@ jobs:
       run: |
         databricks workspace import_dir notebooks /Workspace/CI_Notebooks --overwrite
 
-    - name: Trigger Databricks job
-      run: |
-        databricks jobs run-now --job-id 12345
