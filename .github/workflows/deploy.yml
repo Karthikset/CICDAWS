@@ -1,5 +1,3 @@
-# .github/workflows/deploy.yml
-
 name: Deploy to Databricks
 
 on:
@@ -13,17 +11,20 @@ jobs:
     env:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      echo "${{ secrets.DATABRICKS_HOST }}"
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run Databricks CLI command
-        run: |
-          echo "Connecting to Databricks..."
-          databricks configure --token <<EOF
-          $DATABRICKS_HOST
-          $DATABRICKS_TOKEN
-          echo "${{ secrets.DATABRICKS_HOST }}"
-          EOF
+      - name: Run notebook on serverless compute
+        uses: databricks/run-notebook@v0.0.3
+        with:
+          databricks-host: ${{ secrets.DATABRICKS_HOST }}
+          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
+          notebook-path: "/Users/kennnethcarlson@gmail.com/myfirstnotebook"
+          new-cluster-json: |
+            {
+              "spark_version": "13.3.x-scala2.12",
+              "runtime_engine": "PHOTON",
+              "num_workers": 1
+            }
